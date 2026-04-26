@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Node
+node_modules/
+.next/
+.turbo/
+*.tsbuildinfo
+.npm/
+.yarn/
+out/
+coverage/
+
+# Local config / secrets
+.env
+.env.local
+.env.*.local
+shared.env
+*.key
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Data (large; OSS는 메타만 commit, 실데이터는 사용자가 직접 수집)
+data/sectors/
+data/raw/
+data/cache/
+*.db
+*.sqlite
+
+# Build artifacts
+runtime_logs/
+.run/
+exports/
+
+# OS
+Thumbs.db
+desktop.ini

@@ -1,0 +1,16 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="probably-alpha — gazua">
+  <title>가즈아 · probably-alpha</title>
+  <!-- Cream rounded card matching the platform's --bg / --surface tokens -->
+  <rect width="32" height="32" rx="7" fill="#FAFAF7"/>
+  <!-- Subtle inset border so the icon stays crisp on white browser tabs -->
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="#E6E2DB" stroke-width="1"/>
+  <!-- Three ascending green bullish candles (sage --accent #1B4332) — "going up" -->
+  <!-- Wicks -->
+  <line x1="7.75" y1="17"   x2="7.75" y2="27"   stroke="#1B4332" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="15.75" y1="9"   x2="15.75" y2="27"  stroke="#1B4332" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="23.75" y1="3.5" x2="23.75" y2="27"  stroke="#1B4332" stroke-width="0.9" stroke-linecap="round"/>
+  <!-- Bodies -->
+  <rect x="6"  y="19"  width="3.5" height="7"  rx="0.6" fill="#1B4332"/>
+  <rect x="14" y="12"  width="3.5" height="13" rx="0.6" fill="#1B4332"/>
+  <rect x="22" y="6"   width="3.5" height="19" rx="0.6" fill="#1B4332"/>
+</svg>

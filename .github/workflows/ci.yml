@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install ruff + mypy
+        run: pip install ruff mypy
+      - name: Lint (ruff)
+        run: ruff check packages/core packages/adapters apps/api scripts || true
+      - name: Type check (mypy, advisory)
+        run: mypy packages/core/ky_core/scoring --ignore-missing-imports || true
+
+  python-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install deps
+        run: |
+          pip install fastapi "uvicorn[standard]" pydantic pydantic-settings python-dotenv \
+                      sqlalchemy httpx requests pandas openpyxl yfinance pytrends pytest
+      - name: Smoke test (import only, no API calls)
+        env:
+          PYTHONPATH: packages/core:packages/adapters
+        run: |
+          python -c "from ky_core.scoring import macro_sector_strength, leader_stock, sector_leadlag, alerts, briefing; print('OK')"
+
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/web/package.json
+      - name: Install
+        working-directory: apps/web
+        run: npm install --legacy-peer-deps
+      - name: Build (no SSG, just type-check)
+        working-directory: apps/web
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build || true

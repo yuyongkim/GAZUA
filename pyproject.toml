@@ -1,0 +1,24 @@
+[project]
+name = "ky-platform"
+version = "0.1.0"
+description = "probably-alpha unified financial platform (root meta project)"
+readme = "README.md"
+requires-python = ">=3.11"
+
+# This root pyproject is a meta file. Real packages live in:
+#   apps/api/
+#   packages/core/
+#   packages/adapters/
+# Install those individually with `pip install -e apps/api` etc.
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+exclude = ["legacy", ".venv", "venv", "node_modules"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["apps/api/tests", "packages/core/tests", "packages/adapters/tests"]
+python_files = "test_*.py"

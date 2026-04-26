@@ -1,0 +1,14 @@
+<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="probably-alpha — gazua">
+  <title>가즈아 · probably-alpha</title>
+  <!-- iOS adds its own rounded mask, but the rect provides the brand cream background -->
+  <rect width="180" height="180" rx="40" fill="#1B4332"/>
+  <!-- Three ascending bullish candles in cream, on the sage accent square — inverted scheme for the larger touch icon -->
+  <!-- Wicks -->
+  <line x1="48"  y1="105" x2="48"  y2="155" stroke="#FAFAF7" stroke-width="4" stroke-linecap="round"/>
+  <line x1="92"  y1="55"  x2="92"  y2="155" stroke="#FAFAF7" stroke-width="4" stroke-linecap="round"/>
+  <line x1="136" y1="25"  x2="136" y2="155" stroke="#FAFAF7" stroke-width="4" stroke-linecap="round"/>
+  <!-- Bodies -->
+  <rect x="38"  y="115" width="20" height="36"  rx="3" fill="#FAFAF7"/>
+  <rect x="82"  y="70"  width="20" height="76"  rx="3" fill="#FAFAF7"/>
+  <rect x="126" y="35"  width="20" height="111" rx="3" fill="#FAFAF7"/>
+</svg>

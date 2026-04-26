@@ -1,0 +1,31 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python deps
+COPY apps/api/pyproject.toml /app/apps/api/pyproject.toml
+COPY packages/core/pyproject.toml /app/packages/core/pyproject.toml
+COPY packages/adapters/pyproject.toml /app/packages/adapters/pyproject.toml
+
+RUN pip install --no-cache-dir \
+    "fastapi>=0.115" "uvicorn[standard]>=0.30" "pydantic>=2" "pydantic-settings" \
+    "python-dotenv" "sqlalchemy>=2" "httpx" "requests" "pandas" \
+    "openpyxl" "yfinance" "anthropic" "openai" "pytrends"
+
+# App code
+COPY packages /app/packages
+COPY apps/api /app/apps/api
+COPY scripts /app/scripts
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app/packages/core:/app/packages/adapters
+
+EXPOSE 8300
+
+WORKDIR /app/apps/api
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8300"]

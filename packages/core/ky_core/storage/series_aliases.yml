@@ -1,0 +1,99 @@
+# Series ID normalization for legacy macro bulk imports.
+#
+# The imports pull from three archive shapes:
+#   1. QuantPlatform macro CSVs (columns include `indicator` + `source`,
+#      often Korean strings like "기준금리").
+#   2. QuantDB `quant_platform_history.db` macro_series rows (already carry
+#      a native `series_id` and `source`, e.g. `722Y001:0101000` / ECOS or
+#      `CPIAUCSL` / FRED).
+#   3. Commodity CSVs (just `date,value` — series id lives in the filename).
+#
+# The importer applies these rules in order:
+#   a. If `(source, indicator)` matches an alias entry here, use the mapped
+#      canonical id.
+#   b. Otherwise keep the native id (for DB rows) or prefix the raw indicator
+#      with `legacy:` (for CSV rows that have no canonical code).
+#
+# Canonical codes follow the same `stat_code/item_code` style the live ECOS
+# adapter already persists so Macro Compass queries can join across fresh +
+# legacy rows.
+
+ecos:
+  "기준금리": "722Y001/0101000"
+  "원달러환율": "731Y001/0000001"
+  "USD_KRW": "731Y001/0000001"
+  "소비자물가지수": "901Y009/0"
+  "근원소비자물가지수": "901Y010/DB"
+  "M2통화량": "161Y006/BBHA00"
+  "M1통화량": "161Y002/BBLA00"
+  "20년만기국채금리": "817Y002/010200000"
+  "10년만기국채금리": "817Y002/010195000"
+  "3년만기국채금리": "817Y002/010190000"
+  "30년만기국채금리": "817Y002/010210000"
+  "CD91일물": "817Y002/010150000"
+  "회사채3년": "817Y002/010300000"
+  "실업률": "901Y027/I61E"
+  "고용률": "901Y027/I61F"
+  "소비자심리지수": "511Y002/FME"
+  "기업경기실사지수": "512Y013/AX1AA"
+  "생산자물가지수": "404Y014/*AA"
+  "KOSPI지수": "064Y001/0001000"
+  "KOSDAQ지수": "064Y002/0001000"
+  "코스피지수": "064Y001/0001000"
+  "코스닥지수": "064Y002/0001000"
+  "전산업생산지수": "901Y033/A00"
+  "수출액": "403Y001/*AA"
+  "주택매매가격지수": "901Y062/P63A"
+  "주택전세가격지수": "901Y063/P64A"
+
+fred:
+  "US_CPI": "CPIAUCSL"
+  "US_CPI_CORE": "CPILFESL"
+  "US_PCE": "PCEPI"
+  "US_UNEMPLOYMENT": "UNRATE"
+  "US_FED_FUNDS_RATE": "FEDFUNDS"
+  "US_FEDFUNDS": "FEDFUNDS"
+  "US_GDP": "GDP"
+  "US_CONSUMER_SENTIMENT": "UMCSENT"
+  "US_INFLATION_EXPECT_5Y": "T5YIE"
+  "US_INFLATION_EXPECT_10Y": "T10YIE"
+  "US_REAL_RATE_5Y": "DFII5"
+  "US_REAL_RATE_10Y": "DFII10"
+  "US_TREASURY_3M": "DGS3MO"
+  "US_TREASURY_1Y": "DGS1"
+  "US_TREASURY_2Y": "DGS2"
+  "US_TREASURY_3Y": "DGS3"
+  "US_TREASURY_5Y": "DGS5"
+  "US_TREASURY_7Y": "DGS7"
+  "US_TREASURY_10Y": "DGS10"
+  "US_TREASURY_20Y": "DGS20"
+  "US_TREASURY_30Y": "DGS30"
+  "US_YIELD_SPREAD_10Y2Y": "T10Y2Y"
+  "US_YIELD_SPREAD_10Y3M": "T10Y3M"
+  "US_CORP_AAA": "AAA"
+  "US_CORP_BAA": "BAA"
+  "US_HIGH_YIELD_SPREAD": "BAMLH0A0HYM2"
+  "US_INVESTMENT_GRADE_SPREAD": "BAMLC0A0CM"
+  "US_TED_SPREAD": "TEDRATE"
+  "US_AVG_HOURLY_EARNINGS": "CES0500000003"
+  "USD_EUR": "DEXUSEU"
+  "JPY_USD": "DEXJPUS"
+  "CNY_USD": "DEXCHUS"
+  "US_OIL_WTI": "DCOILWTICO"
+  "US_OIL_BRENT": "DCOILBRENTEU"
+  "VIX": "VIXCLS"
+
+# Commodity filename -> canonical id. Prefix `cmdty:` to disambiguate from
+# FRED/ECOS codes; unit comes from the commodity category.
+commodity:
+  "Brent_Crude_Oil": "cmdty:BRENT"
+  "WTI_Crude_Oil": "cmdty:WTI"
+  "Natural_Gas": "cmdty:NATGAS"
+  "Heating_Oil": "cmdty:HEAT_OIL"
+  "Aluminum": "cmdty:ALUMINUM"
+  "Copper": "cmdty:COPPER"
+  "Coffee": "cmdty:COFFEE"
+  "Corn": "cmdty:CORN"
+  "Soybeans": "cmdty:SOYBEANS"
+  "Sugar": "cmdty:SUGAR"
+  "Wheat": "cmdty:WHEAT"

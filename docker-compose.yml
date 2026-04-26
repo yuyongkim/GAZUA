@@ -1,0 +1,41 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: gazua-api:latest
+    container_name: gazua-api
+    restart: unless-stopped
+    ports:
+      - "8300:8300"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GAZUA_DATA_DIR=/data
+    env_file:
+      - .env
+    volumes:
+      - gazua-data:/data
+      - ./packages:/app/packages:ro
+      - ./apps/api:/app/apps/api:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8300/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: gazua-web:latest
+    container_name: gazua-web
+    restart: unless-stopped
+    ports:
+      - "8380:8380"
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://api:8300
+    depends_on:
+      - api
+
+volumes:
+  gazua-data:

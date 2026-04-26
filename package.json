@@ -1,0 +1,17 @@
+{
+  "name": "ky-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "probably-alpha unified financial platform — FastAPI + Next.js monorepo",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace apps/web run dev",
+    "build:web": "npm --workspace apps/web run build",
+    "lint:web": "npm --workspace apps/web run lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

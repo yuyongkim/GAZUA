@@ -1,0 +1,23 @@
+[project]
+name = "ky-core"
+version = "0.0.3"
+description = "ky-platform data core (SQLite storage + factor library + universe utilities + lexical RAG)"
+requires-python = ">=3.11"
+dependencies = [
+    "sqlalchemy>=2.0",
+    # --- RAG (lexical knowledge-base search) ---
+    # PDF extraction: PyMuPDF primary, pdfplumber fallback for edge cases.
+    "pymupdf>=1.24",
+    "pdfplumber>=0.11",
+    # TF-IDF + sparse matrix ops.
+    "scikit-learn>=1.3",
+    "scipy>=1.10",
+    "numpy>=1.24",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ky_core*"]
